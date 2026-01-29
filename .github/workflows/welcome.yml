@@ -9,6 +9,5 @@ jobs:
     name: Post welcome comment
     runs-on: ubuntu-latest
     steps:
-      - name: Post welcome comment
         run: gh pr comment "$PR_URL" --body "Welcome to the repository!"
 
