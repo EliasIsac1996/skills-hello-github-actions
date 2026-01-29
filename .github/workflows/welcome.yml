@@ -1,15 +1,22 @@
 name: Post welcome comment
+
 on:
   pull_request:
     types: [opened]
+
 permissions:
   pull-requests: write
+
 jobs:
   welcome:
-    name: Post welcome comment
     runs-on: ubuntu-latest
     steps:
-      - run: gh pr comment "$PR_URL" --body "Welcome to the repository!"
+      - name: Post comment
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer $GITHUB_TOKEN" \
+          -H "Accept: application/vnd.github+json" \
+          ${{ github.event.pull_request.comments_url }} \
+          -d '{"body":"Welcome to the repository!"}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
